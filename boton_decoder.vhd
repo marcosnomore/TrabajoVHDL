@@ -11,12 +11,12 @@ end b_decoder;
 architecture Dataflow of b_decoder is
     SIGNAL aux: STD_LOGIC_VECTOR(3 DOWNTO 0);
 begin
-    aux<=piso0 & piso1 & piso2 & piso3;
+    aux<=piso3 & piso2 & piso1 & piso0;
     WITH aux SELECT
         p_sig<= 0 WHEN "0001",
                 1 WHEN "0010",
                 2 WHEN "0100",
                 3 WHEN "1000",
-                UNAFFECTED WHEN OTHERS;
+                0 WHEN OTHERS;
 
 end Dataflow;

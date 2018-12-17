@@ -15,16 +15,21 @@ end siguiente_estado;
 
 architecture Behavioral of siguiente_estado is
 TYPE state_type IS (S0, S1, S2);
-SIGNAL estado, siguiente_estado: state_type;
+SIGNAL estado: state_type;
+SIGNAL siguiente_estado: state_type:=S0;
+SIGNAL memoria_boton: NATURAL RANGE 0 TO 3;
 
 begin
-REGISTRO_ESTADO_ACTUAL: PROCESS (clk)
+REGISTRO_ESTADO_ACTUAL_y_MEMORIA_BOTON: PROCESS (clk)
     BEGIN
         IF (clk'event AND clk='1') THEN
             IF (reset = '1') THEN
                 estado <= S0;
             ELSE
                 estado <= siguiente_estado;
+                IF(estado=S0) THEN
+                    memoria_boton<=piso_deseado;
+                END IF;
             END IF;
         END IF;
     END PROCESS;
@@ -38,32 +43,32 @@ LOGICA_SALIDAS: PROCESS(estado)
         END CASE;
     END PROCESS;
 
-LOGICA_ESTADO_SIGUIENTE: PROCESS(clk,estado)
+LOGICA_ESTADO_SIGUIENTE: PROCESS(clk)
     BEGIN
-    siguiente_estado<=S0;
+        siguiente_estado<=S0;
     CASE(estado) IS
             WHEN S0=>
-                IF(piso_deseado=piso_actual) THEN 
+                IF(memoria_boton=piso_actual) THEN 
                     siguiente_estado<=S0;
-                ELSIF (piso_deseado<piso_actual)THEN
-                    siguiente_estado<=S1;
-                ELSIF (piso_deseado>piso_actual)THEN
+                ELSIF (memoria_boton<piso_actual) THEN
                     siguiente_estado<=S2;
+                ELSIF (memoria_boton>piso_actual) THEN
+                    siguiente_estado<=S1;
                 END IF;
                 
             WHEN S1=>
-                 IF(piso_deseado=piso_actual) THEN 
-                      siguiente_estado<=S0;
-                 ELSIF (piso_deseado>piso_actual)THEN
-                      siguiente_estado<=S1;
-                 END IF;
+                IF(memoria_boton=piso_actual) THEN 
+                     siguiente_estado<=S0;
+                ELSE --(memoria_boton>piso_actual) THEN
+                     siguiente_estado<=S1;
+                END IF;
                  
              WHEN S2=>
-                      IF(piso_deseado=piso_actual) THEN 
-                           siguiente_estado<=S0;
-                      ELSIF (piso_deseado<piso_actual)THEN
-                           siguiente_estado<=S2;
-                      END IF;           
+                IF(memoria_boton=piso_actual) THEN 
+                     siguiente_estado<=S0;
+                ELSE --(memoria_boton<piso_actual) THEN
+                     siguiente_estado<=S2;
+                END IF;           
      END CASE;
   END PROCESS;       
 
