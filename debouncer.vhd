@@ -12,7 +12,7 @@ ENTITY deboun IS
 END deboun;
 
 ARCHITECTURE behavioral OF deboun IS
-signal Q1, Q2, Q3 : std_logic;
+    SIGNAL Q1, Q2, Q3 : std_logic;
 
 BEGIN
     process(clk)

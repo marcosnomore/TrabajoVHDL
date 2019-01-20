@@ -9,7 +9,6 @@ entity Ascen is
         sensores: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
         clock,reset: IN STD_LOGIC;
         puerta: OUT STD_LOGIC;
-        leds: OUT STD_LOGIC_VECTOR (6 DOWNTO 0);
         motor:OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
    );
     
@@ -35,13 +34,7 @@ architecture Structural of Ascen is
          motor: OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
      );
      END COMPONENT;
-     
-     COMPONENT Nat_aBCD
-            Port (
-             nat: in NATURAL RANGE 0 to 3;
-             led: out STD_LOGIC_VECTOR (6 DOWNTO 0)
-           );
-    END COMPONENT;
+   
    
     SIGNAL piso_boton: NATURAL RANGE 0 TO 3;
     SIGNAL piso_sensor: NATURAL RANGE 0 TO 3;
@@ -64,11 +57,6 @@ begin
         piso_actual=> piso_sensor,
         puerta=>puerta,
         motor=>motor
-      );
-      
-      Inst_Natural_a_BCD: Nat_aBCD port map(
-        nat=>piso_sensor,
-        led=>leds
       );
 
 end Structural;
