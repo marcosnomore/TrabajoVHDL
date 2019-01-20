@@ -38,7 +38,7 @@ begin
    
     process
     begin
-        wait for 15 ns;
+        wait for 10 ns;
         clock_tb<= not clock_tb;
     end process;
    
@@ -58,18 +58,18 @@ begin
         sensores_tb<="0100";  
         wait for 400 ns;
            
-        botones_tb<="0000";
+        botones_tb<="0001";
         wait for 600 ns;
         sensores_tb<="0010";
         wait for 400 ns;
           
         botones_tb<="1000";
         wait for 400 ns;
-        botones_tb<="0000";
+        botones_tb<="0001";
         sensores_tb<="0010";
         wait for 400 ns;  
           
-        sensores_tb<="0000";
+        sensores_tb<="0001";
         wait for 1000 ns;   
            
         ASSERT FALSE
