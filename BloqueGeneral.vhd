@@ -1,18 +1,15 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-
 entity BloqGeneral is
      Port (
         boton: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
         sensor: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-        piso_sig_1, piso_sig_2:OUT NATURAL RANGE 0 TO 3;
+        piso_sig_1, piso_sig_2: OUT NATURAL RANGE 0 TO 3;
         reset: IN STD_LOGIC;
         clk: IN STD_LOGIC
       );
 end BloqGeneral;
-
-
 
 architecture Structural of BloqGeneral is
     

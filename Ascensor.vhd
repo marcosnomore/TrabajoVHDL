@@ -4,13 +4,14 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 
 entity Ascen is
-     Port (
+    Port (
         botones: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
         sensores: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
         clock,reset: IN STD_LOGIC;
         puerta: OUT STD_LOGIC;
+        leds: OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
         motor:OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
-   );
+    );
     
 end Ascen;
 
@@ -24,17 +25,23 @@ architecture Structural of Ascen is
             reset: IN STD_LOGIC;
             clk: IN STD_LOGIC
         );
-     END COMPONENT;
+    END COMPONENT;
      
-     COMPONENT siguiente_estado
-         PORT(
-         clk,reset: IN STD_LOGIC;
-         piso_deseado, piso_actual: IN NATURAL RANGE 0 TO 3;
-         puerta: OUT STD_LOGIC;
-         motor: OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
-     );
-     END COMPONENT;
-   
+    COMPONENT siguiente_estado
+        PORT(
+            clk,reset: IN STD_LOGIC;
+            piso_deseado, piso_actual: IN NATURAL RANGE 0 TO 3;
+            puerta: OUT STD_LOGIC;
+            motor: OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
+        );
+    END COMPONENT;
+     
+    COMPONENT Nat_aBCD
+        Port (
+            nat: in NATURAL RANGE 0 to 3;
+            led: out STD_LOGIC_VECTOR (6 DOWNTO 0)
+           );
+    END COMPONENT;
    
     SIGNAL piso_boton: NATURAL RANGE 0 TO 3;
     SIGNAL piso_sensor: NATURAL RANGE 0 TO 3;
@@ -57,6 +64,11 @@ begin
         piso_actual=> piso_sensor,
         puerta=>puerta,
         motor=>motor
+      );
+      
+      Inst_Natural_a_BCD: Nat_aBCD port map(
+        nat=>piso_sensor,
+        led=>leds
       );
 
 end Structural;

@@ -6,24 +6,23 @@ end Ascensor_tb;
 
 architecture Behavioral of Ascensor_tb is
     COMPONENT Ascen IS
-       Port (
-           botones: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-           sensores: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-           clock,reset: IN STD_LOGIC;
-           puerta: OUT STD_LOGIC;
-           leds: OUT STD_LOGIC_VECTOR (6 DOWNTO 0);
-           motor:OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
-      );
+        Port (
+            botones: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+            sensores: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+            clock,reset: IN STD_LOGIC;
+            puerta: OUT STD_LOGIC;
+            leds: OUT STD_LOGIC_VECTOR (6 DOWNTO 0);
+            motor:OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
+        );
     END COMPONENT;
     
     SIGNAL botones_tb: STD_LOGIC_VECTOR(3 DOWNTO 0);
     SIGNAL sensores_tb: STD_LOGIC_VECTOR(3 DOWNTO 0):="0000";
     SIGNAL clock_tb,reset_tb: STD_LOGIC:='0';
     SIGNAL puerta_tb: STD_LOGIC;
-    SIGNAL leds_tb: STD_LOGIC_VECTOR (6 DOWNTO 0);
+    SIGNAL leds_tb: STD_LOGIC_VECTOR(6 DOWNTO 0);
     SIGNAL motor_tb: STD_LOGIC_VECTOR(1 DOWNTO 0);
-    
-    
+        
 begin
     uut: Ascen PORT MAP(
         botones=>botones_tb,
@@ -33,44 +32,49 @@ begin
         puerta=>puerta_tb,
         leds=>leds_tb,
         motor=>motor_tb
-    );
+        );
    
-   reset_tb<='1' after 50 ns, '0' after 150 ns;
+    reset_tb<='0' after 20 ns, '1' after 130 ns;
    
-   process
+    process
     begin
-        wait for 40 ns;
+        wait for 15 ns;
         clock_tb<= not clock_tb;
-   end process;
+    end process;
    
-   process
+    process
     begin
-        wait for 100 ns;
         botones_tb<="0001";
-        
-        wait for 200 ns;
         sensores_tb<="0001";
-        
-        wait for 200 ns;    
-        botones_tb<="0100";
-        
         wait for 200 ns;
-        sensores_tb<="0100";
         
-        wait for 200 ns;    
-        botones_tb<="0100"; --No cambia de estado
-        
-        wait for 200 ns;    
-        botones_tb<="0010";
-        wait for 75 ns;    
         botones_tb<="1000";
-        
-        wait for 200 ns;
+        wait for 400 ns;
+        sensores_tb<="1000";  
+        wait for 400 ns;
+           
+        botones_tb<="0100";
+        wait for 400 ns;
+        sensores_tb<="0100";  
+        wait for 400 ns;
+           
+        botones_tb<="0000";
+        wait for 600 ns;
         sensores_tb<="0010";
-                
+        wait for 400 ns;
+          
+        botones_tb<="1000";
+        wait for 400 ns;
+        botones_tb<="0000";
+        sensores_tb<="0010";
+        wait for 400 ns;  
+          
+        sensores_tb<="0000";
+        wait for 1000 ns;   
+           
         ASSERT FALSE
-        REPORT "simulación terminada"
+            REPORT "simulación terminada"
         SEVERITY FAILURE;             
      
-   end process;
+    end process;
 end Behavioral;
