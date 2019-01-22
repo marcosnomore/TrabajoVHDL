@@ -1,8 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-
-
 entity Ascen is
     Port (
         botones: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
@@ -10,9 +8,9 @@ entity Ascen is
         clock,reset: IN STD_LOGIC;
         puerta: OUT STD_LOGIC;
         leds: OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-        motor:OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
-    );
-    
+        digsel: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+        motor: OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
+    );    
 end Ascen;
 
 architecture Structural of Ascen is
@@ -26,7 +24,7 @@ architecture Structural of Ascen is
             clk: IN STD_LOGIC
         );
     END COMPONENT;
-     
+   
     COMPONENT siguiente_estado
         PORT(
             clk,reset: IN STD_LOGIC;
@@ -38,37 +36,39 @@ architecture Structural of Ascen is
      
     COMPONENT Nat_aBCD
         Port (
-            nat: in NATURAL RANGE 0 to 3;
-            led: out STD_LOGIC_VECTOR (6 DOWNTO 0)
-           );
+            nat: in NATURAL RANGE 0 to 9;
+            led: out STD_LOGIC_VECTOR (6 DOWNTO 0);
+            digsel: out STD_LOGIC_VECTOR (7 DOWNTO 0)
+        );
     END COMPONENT;
    
     SIGNAL piso_boton: NATURAL RANGE 0 TO 3;
     SIGNAL piso_sensor: NATURAL RANGE 0 TO 3;
-  
+
 begin
     
     Inst_Bloque_General: BloqGeneral port map( 
-        boton=>botones,
-        sensor=>sensores,
-        piso_sig_1=>piso_boton,
-        piso_sig_2=>piso_sensor,
-        reset=>reset,
-        clk=>clock
-      );
-      
-      Inst_MaquinaEstados:siguiente_estado port map(
+            boton=>botones,
+            sensor=>sensores,
+            piso_sig_1=>piso_boton,
+            piso_sig_2=>piso_sensor,
+            reset=>reset,
+            clk=>clock
+        );
+
+    Inst_MaquinaEstados:siguiente_estado port map(
         clk=>clock,
         reset=>reset,
         piso_deseado=>piso_boton,
         piso_actual=> piso_sensor,
         puerta=>puerta,
         motor=>motor
-      );
+    );
       
-      Inst_Natural_a_BCD: Nat_aBCD port map(
+    Inst_Natural_a_BCD: Nat_aBCD port map(
         nat=>piso_sensor,
-        led=>leds
-      );
+        led=>leds,
+        digsel=>digsel
+    );
 
 end Structural;

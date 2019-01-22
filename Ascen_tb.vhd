@@ -12,6 +12,7 @@ architecture Behavioral of Ascensor_tb is
             clock,reset: IN STD_LOGIC;
             puerta: OUT STD_LOGIC;
             leds: OUT STD_LOGIC_VECTOR (6 DOWNTO 0);
+            digsel: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
             motor:OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
         );
     END COMPONENT;
@@ -22,7 +23,7 @@ architecture Behavioral of Ascensor_tb is
     SIGNAL puerta_tb: STD_LOGIC;
     SIGNAL leds_tb: STD_LOGIC_VECTOR(6 DOWNTO 0);
     SIGNAL motor_tb: STD_LOGIC_VECTOR(1 DOWNTO 0);
-        
+    SIGNAL digsel_tb: STD_LOGIC_VECTOR(7 DOWNTO 0);    
 begin
     uut: Ascen PORT MAP(
         botones=>botones_tb,
@@ -31,7 +32,8 @@ begin
         reset=>reset_tb,
         puerta=>puerta_tb,
         leds=>leds_tb,
-        motor=>motor_tb
+        motor=>motor_tb,
+        digsel=>digsel_tb
         );
    
     reset_tb<='0' after 20 ns, '1' after 130 ns;

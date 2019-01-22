@@ -9,18 +9,14 @@ entity b_decoder is
 end b_decoder;
 
 architecture Dataflow of b_decoder is
-    SIGNAL aux: STD_LOGIC_VECTOR(3 DOWNTO 0);
     SIGNAL p_sig_aux: NATURAL RANGE 0 TO 3;
 
 begin
-    aux<=piso0 & piso1 & piso2 & piso3;
-    
-    WITH aux SELECT
-        p_sig_aux<= 3 WHEN "0001",
-                    2 WHEN "0010",
-                    1 WHEN "0100",
-                    0 WHEN "1000",
-                    p_sig_aux WHEN OTHERS;
-    
-    p_sig<=p_sig_aux;
+         p_sig_aux<=3 WHEN (piso0='0' AND piso1='0' AND piso2='0' AND piso3='1') ELSE
+                    2 WHEN (piso0='0' AND piso1='0' AND piso2='1' AND piso3='0') ELSE
+                    1 WHEN (piso0='0' AND piso1='1' AND piso2='0' AND piso3='0') ELSE 
+                    0 WHEN (piso0='1' AND piso1='0' AND piso2='0' AND piso3='0') ELSE
+                    p_sig_aux;
+                    
+     p_sig<=p_sig_aux;
 end Dataflow;

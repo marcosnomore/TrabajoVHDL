@@ -9,15 +9,16 @@ architecture Behavioral of Nat_aBCD_tb is
     COMPONENT Nat_aBCD
         Port (
             nat: in NATURAL RANGE 0 to 9;
-            led: out STD_LOGIC_VECTOR (6 DOWNTO 0)
+            led: out STD_LOGIC_VECTOR (6 DOWNTO 0);
+            digsel: out STD_LOGIC_VECTOR (7 DOWNTO 0)
           );
     end COMPONENT;
     
     SIGNAL nat_tb: NATURAL RANGE 0 to 9;
     SIGNAL led_tb: STD_LOGIC_VECTOR (6 DOWNTO 0);
-
+    SIGNAL digsel_tb: STD_LOGIC_VECTOR (7 DOWNTO 0);
 begin
-    uut: Nat_aBCD PORT MAP( nat=>nat_tb, led=>led_tb);
+    uut: Nat_aBCD PORT MAP( nat=>nat_tb, led=>led_tb, digsel=>digsel_tb);
     
     PROCESS
     BEGIN

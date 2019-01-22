@@ -8,7 +8,8 @@ ENTITY deboun IS
         clk : in std_logic;
         rst : in std_logic;
         btn_in : in std_logic;
-        btn_out : out std_logic);
+        btn_out : out std_logic
+    );
 END deboun;
 
 ARCHITECTURE behavioral OF deboun IS
@@ -30,6 +31,6 @@ BEGIN
         end if;
      end process;
      
-     btn_out <= Q1 and Q2 and (not Q3);
+     btn_out <= Q1 and Q2 and Q3;
      
  END behavioral;

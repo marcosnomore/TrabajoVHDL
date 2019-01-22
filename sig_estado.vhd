@@ -36,31 +36,33 @@ LOGICA_SALIDAS: PROCESS(estado)
         END CASE;
     END PROCESS;
 
-LOGICA_ESTADO_SIGUIENTE: PROCESS(clk,estado)
+LOGICA_ESTADO_SIGUIENTE: PROCESS(clk, estado)
     BEGIN
+    
+    siguiente_estado<=estado;
     
     CASE(estado) IS
         WHEN S0=>
             memoria_boton<=piso_deseado;
             IF(memoria_boton=piso_actual) THEN 
                 siguiente_estado<=S0;
-            ELSIF (memoria_boton<piso_actual)THEN
+            ELSIF (memoria_boton<piso_actual) THEN
                 siguiente_estado<=S1;
-            ELSIF (memoria_boton>piso_actual)THEN
+            ELSIF (memoria_boton>piso_actual) THEN
                 siguiente_estado<=S2;
             END IF;
                 
         WHEN S1=>
             IF(memoria_boton=piso_actual) THEN 
                  siguiente_estado<=S0;
-            ELSIF (memoria_boton>piso_actual)THEN
+            ELSIF (memoria_boton>piso_actual) THEN
                  siguiente_estado<=S1;
             END IF;
                  
         WHEN S2=>
             IF(memoria_boton=piso_actual) THEN 
                  siguiente_estado<=S0;
-            ELSIF (memoria_boton<piso_actual)THEN
+            ELSIF (memoria_boton<piso_actual) THEN
                  siguiente_estado<=S2;
             END IF;           
      END CASE;
